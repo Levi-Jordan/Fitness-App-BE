@@ -14,3 +14,4 @@ Implement auth / verification into the back end
 Create components for front end such as standard nav bar and other elements for conistency
 
 
+Link to front end git: https://github.com/Levi-Jordan/Fitness-App-FE
