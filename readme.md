@@ -13,5 +13,7 @@ Create routes and pathways
 Implement auth / verification into the back end 
 Create components for front end such as standard nav bar and other elements for conistency
 
+Add timestamps, consider aggregation pipelines, 
+
 
 Link to front end git: https://github.com/Levi-Jordan/Fitness-App-FE
