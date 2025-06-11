@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const nutritionSchema = new mongoose.Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "User", 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         required: true
 
     },
@@ -12,27 +12,24 @@ const nutritionSchema = new mongoose.Schema({
         required: true,
         index: true
     },
-    gramsProtein: { 
+    gramsProtein: {
         type: Number,
         required: true
     },
-    gramsFat: { 
+    gramsFat: {
         type: Number,
         required: true
     },
-    gramsCarb: { 
+    gramsCarb: {
         type: Number,
         required: true
     },
-    cal:{
+    cal: {
         type: Number,
-        required: true
-    },
-    date: {
-        type: Date,
-        default: Date.now,
         required: true
     }
-});
+},
+    { timestamps: true }
+);
 
 export default mongoose.model("Nutrition", nutritionSchema);
