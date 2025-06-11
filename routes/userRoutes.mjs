@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { check, validationResult } from "express-validator";
@@ -56,6 +57,44 @@ router.post(
         }
     }
 )
+
+router.post(
+    "/login",
+    [
+        check('email', "Need Valid Email").isEmail(),
+        check('password', "Password Required").exists(),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        const { email, password } = req.body;
+        try {
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
+            }
+            const isMatch = await bcrypt.compare(password, user.password)
+            if (!isMatch) { return res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] }); }
+            const payload = {
+                user: { id: user._id, }
+            }
+            jwt.sign(payload, process.env.jwtSecret, { expiresIn: 3600 },
+                (err, token) => {
+                    if (err) throw err;
+                    res.status(201).json({ token });
+                }
+            )
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ errors: [{ msg: "Server Error" }] })
+
+        }
+    }     
+)
+
 
 export default router;
 

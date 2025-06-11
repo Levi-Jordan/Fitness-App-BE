@@ -16,6 +16,7 @@ app.use(express.json());
 connectDB();
 // Routes
 app.use('/api/nutrition', nutritionRoutes);
+app.use('/api/user', userRoutes)
 // ErrMiddleware
 app.use((err, _req, res, next) => {
   res.status(500).json({ msg: err.message });
