@@ -1,10 +1,11 @@
 import express from 'express';
 import Nutrition from '../models/nutritionSchema.mjs'
+import auth from '../middleware/auth.mjs';
 
 const router = express.Router();
 
 // Create
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     // Specify Action
     try {
         const newNutrition = await Nutrition.create(req.body);
@@ -15,7 +16,7 @@ router.post('/', async (req, res) => {
 });
 
 // Read
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     // Specify Action
     try {
         const allNutrition = await Nutrition.find({});
@@ -26,7 +27,7 @@ router.get('/', async (req, res) => {
 });
 
 // Update
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
     // Specify Action
     const editNutrition = await Nutrition.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
@@ -36,7 +37,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
     // Specify Action
     const deleteNutrition = await Nutrition.findByIdAndDelete(req.params.id);
 
