@@ -1,6 +1,7 @@
 // Imports
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from "cors"
 import connectDB from './db/conn.mjs';
 import nutritionRoutes from './routes/nutritionRoutes.mjs';
 //import Nutrition from './models/nutritionSchema.mjs';
@@ -12,8 +13,10 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middlewares
-app.use(express.json());
 connectDB();
+app.use(express.json());
+app.use(cors());
+
 // Routes
 app.use('/api/nutrition', nutritionRoutes);
 app.use('/api/user', userRoutes)
