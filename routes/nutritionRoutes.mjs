@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/', auth, async (req, res) => {
     // Specify Action
     try {
-        const newNutrition = await Nutrition.create(req.body);
+        const newNutrition = await Nutrition.create({...req.body, user: req.user.id});
         res.status(201).json(newNutrition);
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -19,7 +19,7 @@ router.post('/', auth, async (req, res) => {
 router.get('/', auth, async (req, res) => {
     // Specify Action
     try {
-        const allNutrition = await Nutrition.find({});
+        const allNutrition = await Nutrition.find({user: req.user.id});
         res.status(200).json(allNutrition);
     } catch (err) {
         res.status(500).json({ error: err.message });
