@@ -7,7 +7,7 @@ export default function (req, res, next){
     let token = req.header("token");
 
     if (!token) {
-        return res.status(401).json({msg: "Auth Denied"})
+        return res.status(401).json({msg: "Auth Denied"});
     }
     try {
         const decoded = jwt.verify(token, process.env.jwtSecret);
