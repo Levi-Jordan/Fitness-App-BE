@@ -4,11 +4,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default function (req, res, next){
-    let token = req.header("token");
+    const authHeader = req.header("Authorization")
 
-    if (!token) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return res.status(401).json({msg: "Auth Denied"});
     }
+
+    const token = authHeader.split(" ")[1];
+
     try {
         const decoded = jwt.verify(token, process.env.jwtSecret);
         req.user = decoded.user.id;

@@ -5,10 +5,10 @@ import auth from '../middleware/auth.mjs';
 const router = express.Router();
 
 // Create
-router.post('/', auth, async (req, res) => {
+router.post('/',  auth, async (req, res) => {
     // Specify Action
     try {
-        const newNutrition = await Nutrition.create({...req.body, user: req.user.id});
+        const newNutrition = await Nutrition.create({...req.body, user: req.user.id}); //user: req.user.id//
         res.status(201).json(newNutrition);
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -29,7 +29,7 @@ router.get('/', auth, async (req, res) => {
 // Update
 router.put('/:id', auth, async (req, res) => {
     // Specify Action
-    const editNutrition = await Nutrition.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const editNutrition = await Nutrition.findOneAndUpdate({_id: req.params.id, user: req.user.id}, req.body, { new: true });
 
 
     // Return Result
@@ -39,7 +39,7 @@ router.put('/:id', auth, async (req, res) => {
 // Delete
 router.delete('/:id', auth, async (req, res) => {
     // Specify Action
-    const deleteNutrition = await Nutrition.findByIdAndDelete(req.params.id);
+    const deleteNutrition = await Nutrition.findOneAndDelete({_id: req.params.id, user: req.user.id});
 
     // Return Result
     res.json(deleteNutrition);
